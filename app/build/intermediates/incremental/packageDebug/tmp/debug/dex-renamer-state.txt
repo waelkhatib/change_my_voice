@@ -1,0 +1,10 @@
+#Sun Aug 23 23:04:41 EEST 2020
+path.2=classes2.dex
+path.1=classes.dex
+path.0=classes.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+base.2=D\:\\Change My Voice\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
+base.1=D\:\\Change My Voice\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
+base.0=D\:\\Change My Voice\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
