@@ -818,6 +818,7 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
+drawable alert
 drawable back
 drawable background
 drawable cast_abc_scrubber_control_off_mtrl_alpha
@@ -874,6 +875,7 @@ drawable cast_ic_stop_circle_filled_white
 drawable cast_mini_controller_gradient_light
 drawable cast_mini_controller_progress_drawable
 drawable cast_skip_ad_label_border
+drawable circle_play
 drawable common_full_open_on_phone
 drawable common_google_signin_btn_icon_dark
 drawable common_google_signin_btn_icon_dark_focused
@@ -1080,6 +1082,7 @@ drawable ic_vol_type_speaker_light
 drawable ic_vol_type_tv_dark
 drawable ic_vol_type_tv_light
 drawable item
+drawable microphone
 drawable mm
 drawable mr_button_connected_dark
 drawable mr_button_connected_light
@@ -1113,6 +1116,8 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable pause
+drawable pause_circle
 drawable places_ic_clear
 drawable places_ic_search
 drawable play
@@ -1160,7 +1165,10 @@ drawable quantum_ic_volume_off_white_36
 drawable quantum_ic_volume_up_grey600_36
 drawable quantum_ic_volume_up_white_36
 drawable rec
+drawable rec_circle
 drawable share
+drawable share_circle
+drawable splash
 drawable spleshscreen
 drawable stop
 drawable tooltip_frame_dark
@@ -1669,6 +1677,7 @@ string place_autocomplete_clear_button
 string place_autocomplete_search_hint
 string play_back
 string record_your_voice_first
+string recording
 string recording_stop
 string robot
 string s1
@@ -1682,11 +1691,13 @@ string search_menu_title
 string slow_motion
 string start_recording
 string status_bar_notification_info_overflow
+string stop
 string tagmanager_preview_dialog_button
 string tagmanager_preview_dialog_message
 string tagmanager_preview_dialog_title
 string vamp
 string wallet_buy_button_place_holder
+string warning
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

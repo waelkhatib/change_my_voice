@@ -1,8 +1,13 @@
 package com.L2.changemyvoice;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class SplashScreen extends Activity
 {
@@ -12,6 +17,7 @@ public class SplashScreen extends Activity
 	    super.onCreate(paramBundle);
 	    requestWindowFeature(1);
 	    setContentView(R.layout.splesh);
+	    hideStatusBar();
 	    
 	    Thread background = new Thread()
 	    {
@@ -54,4 +60,23 @@ public class SplashScreen extends Activity
 		
 	  	super.onBackPressed();
 	  }
+	public void hideStatusBar(){
+
+		//Hide the status bar on Android 4.0 and Lower
+		if (Build.VERSION.SDK_INT < 16) {
+			Window w=getWindow();
+			w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+		}
+		else{
+			View decorView = getWindow().getDecorView();
+			// Hide the status bar.
+			int visibility = View.SYSTEM_UI_FLAG_FULLSCREEN;
+			decorView.setSystemUiVisibility(visibility);
+
+
+		}
+
+	}
 }

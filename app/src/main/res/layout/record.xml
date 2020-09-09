@@ -23,7 +23,7 @@
             android:layout_marginBottom="16.0dip"
             android:layout_weight="1.0"
             android:gravity="center"
-            android:text="Recording..."
+            android:text="@string/recording"
             android:textColor="#ffffffff"
             android:textSize="20.0dip" />
 
@@ -39,7 +39,7 @@
             android:layout_width="250dp"
             android:layout_height="30dp"
             android:layout_weight="1.0"
-            android:text="Stop"
+            android:text="@string/stop"
             android:textColor="@android:color/white"
             android:textSize="20dp"
             android:gravity="center"

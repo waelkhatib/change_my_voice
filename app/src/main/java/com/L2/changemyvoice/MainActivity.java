@@ -19,23 +19,33 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
-
+import android.Manifest;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.content.pm.PackageManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 
 import com.L2.changemyvoice.constants.AppConstants;
@@ -46,13 +56,20 @@ import com.google.android.gms.ads.InterstitialAd;
 
 public class MainActivity extends Activity
 {
-  public static Context Context;
+	private static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE =22 ;
+	private static final int MY_PERMISSIONS_READ_EXTERNAL_STORAGE =23 ;
+	private static final int MY_PERMISSIONS_RECORD_AUDIO_STORAGE = 24;
+    private static final int MY_PERMISSIONS_PLAY_RECORD =25 ;
+    private static final int INITIAZE_AUDIO_DATA_PERMISION =26 ;
+    public static Context Context;
   static AudioTrack audioTrack;
   static File file = new File(Environment.getExternalStorageDirectory(), "test.pcm");;
   static Boolean recording;
   static Spinner spFrequency;
   private ArrayAdapter<String> adapter;
   Animation animRotate;
+  private long fileLength;
+  private boolean stopped=true;
   ImageView imageView1;
   ImageView playBack;
   ImageView shareWhatsapp;
@@ -65,10 +82,33 @@ public class MainActivity extends Activity
  
 
   void playRecord(){
-	
-			Initialize();
-			audioTrack.play();
-			audioTrack.write(inputAudioData, 0, inputAudioData.length);
+            playBack.setImageResource(R.drawable.pause_circle);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Initialize();
+                    audioTrack.play();
+                    stopped=false;
+                    audioTrack.setNotificationMarkerPosition(inputAudioData.length);
+                    audioTrack.setPlaybackPositionUpdateListener(new AudioTrack.OnPlaybackPositionUpdateListener() {
+                        @Override
+                        public void onMarkerReached(AudioTrack track) {
+                            playBack.setImageResource(R.drawable.circle_play);
+                            stopped = true;
+                            audioTrack.stop();
+                            audioTrack.release();
+                        }
+
+                        @Override
+                        public void onPeriodicNotification(AudioTrack track) {
+
+                        }
+                    });
+                    audioTrack.write(inputAudioData, 0, inputAudioData.length);
+                }
+            }).start();
+
+
             //SaveToWavFile();
 			//-----------------------------------------------------------------------------------------
 			
@@ -83,8 +123,7 @@ private void shareWavFile(){
 	startActivity(Intent.createChooser(shareIntent, "Share sound"));
 }
 private void Initialize(){
-	  if(inputAudioData==null)
-		  ReadFromPcmFile();
+    initializeAudioData();
 	getSampleRate();
 	audioTrack = new AudioTrack(3,
 			sample_rate,
@@ -93,7 +132,14 @@ private void Initialize(){
 			inputAudioData.length,
 			1);
 }
-  private byte[] short2byte(short[] sData,int len) {
+
+    private void initializeAudioData() {
+              if(inputAudioData==null)
+                  ReadFromPcmFile();
+
+    }
+
+    private byte[] short2byte(short[] sData,int len) {
 	    int shortArrsize = len;
 	    byte[] bytes = new byte[shortArrsize * 2];
 
@@ -184,7 +230,7 @@ private void Initialize(){
 	  file = new File(Environment.getExternalStorageDirectory(), "test.pcm");
 		
       int shortSizeInBytes = Short.SIZE/Byte.SIZE;
-		
+		fileLength=file.length();
 		int bufferSizeInBytes = (int)(file.length()/shortSizeInBytes);
 		inputAudioData = new short[bufferSizeInBytes];
 		
@@ -197,6 +243,8 @@ private void Initialize(){
 			while(dataInputStream.available() > 0){
 				inputAudioData[j] = dataInputStream.readShort();
 				j++;
+
+
 			}
 			
 			dataInputStream.close();
@@ -236,6 +284,7 @@ private void Initialize(){
 			audioRecord.stop();
 			dataOutputStream.close();
 			inputAudioData=null;
+			initAudioData();
 	        }
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -246,6 +295,29 @@ private void Initialize(){
   {
     super.onBackPressed();
     finish();
+  }
+  private void createDialog(){
+      AlertDialog.Builder builder = new AlertDialog.Builder(this);
+      builder.setMessage(R.string.record_your_voice_first)
+              .setCancelable(false)
+              .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int id) {
+
+                  }
+              })
+              //Set your icon here
+              .setTitle(R.string.warning)
+              .setIcon(R.drawable.alert);
+
+      Dialog d =builder.show();//showing the dialog
+      int dividerId = d.getContext().getResources().getIdentifier("android:id/titleDivider", null, null);
+      View divider = d.findViewById(dividerId);
+      divider.setBackground(getResources().getDrawable(android.R.drawable.divider_horizontal_textfield));
+      divider.getLayoutParams().height=1;
+      divider.requestLayout();
+      int textViewId = d.getContext().getResources().getIdentifier("android:id/alertTitle", null, null);
+      TextView tv = (TextView) d.findViewById(textViewId);
+      tv.setTextColor(getResources().getColor(android.R.color.primary_text_light));
   }
 
   @SuppressWarnings({ "rawtypes" })
@@ -271,7 +343,28 @@ public void onCreate(Bundle paramBundle)
 		@Override
 		public void onClick(View arg0) {
 			// TODO Auto-generated method stub
-			shareWavFile();
+
+            if (file.exists()) {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    // only for gingerbread and newer versions
+
+                    if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        // Permission is not granted
+                        if (!ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            // No explanation needed; request the permission
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
+                        }else
+                            shareWavFile();
+                    }else
+                        shareWavFile();
+                }else
+                    shareWavFile();
+            }
+            else
+                createDialog();
 		}
 	});
     startRec.setOnClickListener(new View.OnClickListener() {
@@ -279,19 +372,34 @@ public void onCreate(Bundle paramBundle)
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			Intent localIntent = new Intent(getApplicationContext(), RecordingDailog.class);
-		      startActivity(localIntent);
-		      displayInterstitial();
-		     
-		        new Thread(new Runnable()
-		        {
-		          public void run()
-		          {
-		            recording = Boolean.valueOf(true);
-		            startRecord();
-		          }
-		        })
-		        .start();
+			if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+				// only for gingerbread and newer versions
+
+				if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+					// Permission is not granted
+					if (!ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+							Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+						// No explanation needed; request the permission
+						ActivityCompat.requestPermissions(MainActivity.this,
+								new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+								MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE);
+					}
+				}
+				if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)						{
+					// Permission is not granted
+					if (!ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+							Manifest.permission.RECORD_AUDIO)) {
+						ActivityCompat.requestPermissions(MainActivity.this,
+								new String[]{Manifest.permission.RECORD_AUDIO},
+								MY_PERMISSIONS_RECORD_AUDIO_STORAGE);
+
+					} else
+						WriteRecordFile();
+				} else
+					WriteRecordFile();
+			}
+			else
+				WriteRecordFile();
 		      }
 	});
     playBack.setOnClickListener(new View.OnClickListener() {
@@ -299,15 +407,40 @@ public void onCreate(Bundle paramBundle)
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			if (file.exists())
-		           playRecord();
+            if(!stopped && audioTrack!=null && audioTrack.getState()==AudioTrack.STATE_INITIALIZED &&audioTrack.getPlayState()!=AudioTrack.PLAYSTATE_STOPPED){
+                playBack.setImageResource(R.drawable.circle_play);
+                stopped=true;
+                audioTrack.stop();
+                audioTrack.release();
+            }else
+			if (file.exists()) {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    // only for gingerbread and newer versions
+
+                    if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        // Permission is not granted
+                        if (!ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            // No explanation needed; request the permission
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    MY_PERMISSIONS_PLAY_RECORD);
+                        }else
+                            playRecord();
+                    }else
+                        playRecord();
+                }else
+                     playRecord();
+            }
+            else
+                createDialog();
 		}
 	});
     spFrequency = (Spinner)findViewById(R.id.frequency);
     adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayOfString);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spFrequency.setAdapter(this.adapter);
-    imageView1.setVisibility(0);
+    imageView1.setVisibility(View.VISIBLE);
     
  // Prepare the Interstitial Ad
  		interstitial = new InterstitialAd(MainActivity.this);
@@ -333,9 +466,66 @@ public void onCreate(Bundle paramBundle)
  				// Call displayInterstitial() function
  			}
  		});
+ 		initAudioData();
   }
 
-  protected void onDestroy()
+	private void WriteRecordFile() {
+		Intent localIntent = new Intent(getApplicationContext(), RecordingDailog.class);
+		startActivity(localIntent);
+		displayInterstitial();
+
+		new Thread(new Runnable()
+		{
+			public void run()
+			{
+				recording = Boolean.valueOf(true);
+				startRecord();
+			}
+		})
+				.start();
+	}
+	private void initAudioData(){
+
+        if (file.exists()) {
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // only for gingerbread and newer versions
+
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    // Permission is not granted
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        // No explanation needed; request the permission
+                        ActivityCompat.requestPermissions(MainActivity.this,
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                INITIAZE_AUDIO_DATA_PERMISION);
+                    }else
+                      new Thread(new Runnable() {
+                          @Override
+                          public void run() {
+                              initializeAudioData();
+
+                          }
+                      }).start();
+                }else
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            initializeAudioData();
+
+                        }
+                    }).start();
+            }else
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initializeAudioData();
+
+                    }
+                }).start();
+        }
+    }
+
+	protected void onDestroy()
   {
     super.onDestroy();
     recording = Boolean.valueOf(false);
@@ -362,5 +552,52 @@ public void onCreate(Bundle paramBundle)
 	public void onPause() 
 	{
 		super.onPause();
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		if(requestCode==MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE && grantResults.length>0
+				&& grantResults[0] == PackageManager.PERMISSION_GRANTED){
+			if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+				// Permission is not granted
+				if (!ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+						Manifest.permission.RECORD_AUDIO)) {
+					ActivityCompat.requestPermissions(MainActivity.this,
+							new String[]{Manifest.permission.RECORD_AUDIO},
+							MY_PERMISSIONS_RECORD_AUDIO_STORAGE);
+
+				} else
+					WriteRecordFile();
+			}
+            else
+                WriteRecordFile();
+		}else
+		if(requestCode==MY_PERMISSIONS_RECORD_AUDIO_STORAGE&& grantResults.length>0
+				&& grantResults[0] == PackageManager.PERMISSION_GRANTED){
+			WriteRecordFile();
+		}
+		else
+		if(requestCode==MY_PERMISSIONS_READ_EXTERNAL_STORAGE&& grantResults.length>0
+				&& grantResults[0] == PackageManager.PERMISSION_GRANTED){
+			shareWavFile();
+		}
+        else
+		if(requestCode==MY_PERMISSIONS_PLAY_RECORD&& grantResults.length>0
+				&& grantResults[0] == PackageManager.PERMISSION_GRANTED){
+			playRecord();
+		}
+        else
+		if(requestCode==INITIAZE_AUDIO_DATA_PERMISION&& grantResults.length>0
+				&& grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    initializeAudioData();
+
+                }
+            }).start();
+        }
+
+
 	}
 }

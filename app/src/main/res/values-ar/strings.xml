@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" >تغيير الصوت</string>
+    <string name="vamp" >شبح</string>
+    <string name="slow_motion" >حركة بطيئة</string>
+    <string name="robot" >رجل آلي</string>
+    <string name="normal" >عادي</string>
+    <string name="chipmunk" >سنجاب</string>
+    <string name="funny" >مرح</string>
+    <string name="bee" >نحلة</string>
+    <string name="elephent" >فيل</string>
+    <string name="record_your_voice_first">قم بتسجيل صوتك أولاً</string>
+    <string name="stop">إيقاف</string>
+    <string name="recording">تسجيل...</string>
+    <string name="warning">تحذير</string>
+</resources>

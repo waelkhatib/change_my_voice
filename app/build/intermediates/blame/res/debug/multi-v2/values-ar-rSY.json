@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\Change My Voice\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ar-rSY\\values-ar-rSY.xml",
+            "map": [
+                {
+                    "source": "D:\\Change My Voice\\app\\src\\main\\res\\values-ar-rSY\\strings.xml",
+                    "from": {
+                        "startLines": "8,6,9,7,5,10,4,3,2",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "320,235,358,280,193,401,149,96,57",
+                        "endColumns": "36,43,41,38,40,72,42,51,37",
+                        "endOffsets": "352,274,395,314,229,469,187,143,90"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,91,134,175,213,253,326,368,419",
+                        "endColumns": "35,42,40,37,39,72,41,50,36",
+                        "endOffsets": "86,129,170,208,248,321,363,414,451"
+                    }
+                }
+            ]
+        }
+    ]
+}

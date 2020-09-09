@@ -50,22 +50,26 @@
 
             <ImageView
                 android:id="@+id/startrec"
+                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/rec" />
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/rec_circle" />
 
             <ImageView
                 android:id="@+id/playback" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+                 android:layout_gravity="center"
                 android:layout_toRightOf="@+id/imageView1"
-                android:src="@drawable/play" />
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/circle_play" />
             <ImageView
                 android:id="@+id/shareWhatsapp"
                 android:layout_width="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content"
-                android:src="@drawable/rec" />
+                android:src="@drawable/share_circle" />
         </LinearLayout>
     </RelativeLayout>
 
