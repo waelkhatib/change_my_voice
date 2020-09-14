@@ -9,15 +9,15 @@
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "57",
-                        "endColumns": "89",
-                        "endOffsets": "142"
+                        "endColumns": "88",
+                        "endOffsets": "141"
                     },
                     "to": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
-                        "endColumns": "88",
-                        "endOffsets": "139"
+                        "endColumns": "87",
+                        "endOffsets": "138"
                     }
                 }
             ]

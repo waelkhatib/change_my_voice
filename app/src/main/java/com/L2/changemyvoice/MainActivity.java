@@ -218,7 +218,7 @@ private void Initialize(){
 	  file = new File(Environment.getExternalStorageDirectory(), "test.pcm");
 		
       int shortSizeInBytes = Short.SIZE/Byte.SIZE;
-	  long fileLength = file.length();
+	  //  long fileLength = file.length();
 		int bufferSizeInBytes = (int)(file.length()/shortSizeInBytes);
 		inputAudioData = new short[bufferSizeInBytes];
 		
