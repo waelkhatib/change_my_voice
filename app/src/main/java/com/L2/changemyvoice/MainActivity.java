@@ -1,34 +1,15 @@
 package com.L2.changemyvoice;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 //import javax.sound.sampled.AudioFileFormat;
 //import javax.sound.sampled.AudioFormat;
 //import javax.sound.sampled.AudioInputStream;
 //import javax.sound.sampled.AudioSystem;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
+
 import android.Manifest;
-
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-
 import android.content.pm.PackageManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
@@ -36,23 +17,32 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 
 import com.L2.changemyvoice.constants.AppConstants;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
 
 public class MainActivity extends Activity
 {
@@ -61,27 +51,28 @@ public class MainActivity extends Activity
 	private static final int MY_PERMISSIONS_RECORD_AUDIO_STORAGE = 24;
     private static final int MY_PERMISSIONS_PLAY_RECORD =25 ;
     private static final int INITIAZE_AUDIO_DATA_PERMISION =26 ;
-    public static Context Context;
-  static AudioTrack audioTrack;
-  static File file = new File(Environment.getExternalStorageDirectory(), "test.pcm");;
-  static Boolean recording;
-  static Spinner spFrequency;
-  private ArrayAdapter<String> adapter;
-  Animation animRotate;
-  private long fileLength;
-  private boolean stopped=true;
-  ImageView imageView1;
-  ImageView playBack;
-  ImageView shareWhatsapp;
-  short[] inputAudioData;
-  ImageView startRec;
-  int sample_rate = 0;
-  Integer[] freqset = {6050, 8500, 11025, 16000, 22050,
-          32000, 37800, 44056, 44100};
+	static Boolean recording;
+	// --Commented out by Inspection (14/09/2020 16:17):public Context Context;
+	private static AudioTrack audioTrack;
+	private static File file = new File(Environment.getExternalStorageDirectory(), "test.pcm");
+	private Spinner spFrequency;
+	// --Commented out by Inspection (14/09/2020 16:17):Animation animRotate;
+	private boolean stopped = true;
+	private ImageView playBack;
+	// --Commented out by Inspection START (14/09/2020 16:17):
+// --Commented out by Inspection START (14/09/2020 16:21):
+	private ImageView shareWhatsapp;
+	private short[] inputAudioData;
+	private ImageView startRec;
+	private int sample_rate = 0;
+	//// --Commented out by Inspection STOP (14/09/2020 16:17)
+//  Integer[] freqset = {6050, 8500, 11025, 16000, 22050,
+//          32000, 37800, 44056, 44100};
+// --Commented out by Inspection STOP (14/09/2020 16:21)
   private InterstitialAd interstitial;
- 
 
-  void playRecord(){
+
+	private void playRecord() {
             playBack.setImageResource(R.drawable.pause_circle);
             new Thread(new Runnable() {
                 @Override
@@ -140,10 +131,9 @@ private void Initialize(){
     }
 
     private byte[] short2byte(short[] sData,int len) {
-	    int shortArrsize = len;
-	    byte[] bytes = new byte[shortArrsize * 2];
+		byte[] bytes = new byte[len * 2];
 
-	    for (int i = 0; i < shortArrsize; i++) {
+		for (int i = 0; i < len; i++) {
 	        bytes[i * 2] = (byte) (sData[i] & 0x00FF);
 	        bytes[(i * 2) + 1] = (byte) (sData[i] >> 8);
 	        //sData[i] = 0;
@@ -220,8 +210,6 @@ private void Initialize(){
 			randomAccessWriter.close();
 	
 	
-} catch (FileNotFoundException e) {
-	e.printStackTrace();
 } catch (IOException e) {
 	e.printStackTrace();
 }
@@ -230,7 +218,7 @@ private void Initialize(){
 	  file = new File(Environment.getExternalStorageDirectory(), "test.pcm");
 		
       int shortSizeInBytes = Short.SIZE/Byte.SIZE;
-		fileLength=file.length();
+	  long fileLength = file.length();
 		int bufferSizeInBytes = (int)(file.length()/shortSizeInBytes);
 		inputAudioData = new short[bufferSizeInBytes];
 		
@@ -248,8 +236,6 @@ private void Initialize(){
 			}
 			
 			dataInputStream.close();
-		}catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -279,7 +265,7 @@ private void Initialize(){
 					dataOutputStream.writeShort(audioData[i]);
 				}
 			}
-			if (!recording.booleanValue())
+			if (!recording)
 	        {
 			audioRecord.stop();
 			dataOutputStream.close();
@@ -316,7 +302,7 @@ private void Initialize(){
       divider.getLayoutParams().height=1;
       divider.requestLayout();
       int textViewId = d.getContext().getResources().getIdentifier("android:id/alertTitle", null, null);
-      TextView tv = (TextView) d.findViewById(textViewId);
+	  TextView tv = d.findViewById(textViewId);
       tv.setTextColor(getResources().getColor(android.R.color.primary_text_light));
   }
 
@@ -334,10 +320,10 @@ public void onCreate(Bundle paramBundle)
     arrayOfString[5] = getApplicationContext().getString(R.string.funny);
     arrayOfString[6] = getApplicationContext().getString(R.string.bee);
     arrayOfString[7] = getApplicationContext().getString(R.string.elephent);
-    startRec = ((ImageView)findViewById(R.id.startrec));
-    shareWhatsapp = ((ImageView)findViewById(R.id.shareWhatsapp));
-    imageView1 = ((ImageView)findViewById(R.id.imageView3));
-    playBack = ((ImageView)findViewById(R.id.playback));
+	  startRec = findViewById(R.id.startrec);
+	  shareWhatsapp = findViewById(R.id.shareWhatsapp);
+	  ImageView imageView1 = findViewById(R.id.imageView3);
+	  playBack = findViewById(R.id.playback);
     shareWhatsapp.setOnClickListener(new View.OnClickListener() {
 		
 		@Override
@@ -436,10 +422,10 @@ public void onCreate(Bundle paramBundle)
                 createDialog();
 		}
 	});
-    spFrequency = (Spinner)findViewById(R.id.frequency);
-    adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayOfString);
+	  spFrequency = findViewById(R.id.frequency);
+	  ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arrayOfString);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spFrequency.setAdapter(this.adapter);
+	  spFrequency.setAdapter(adapter);
     imageView1.setVisibility(View.VISIBLE);
     
  // Prepare the Interstitial Ad
@@ -448,7 +434,7 @@ public void onCreate(Bundle paramBundle)
  		interstitial.setAdUnitId(AppConstants.interstitial_ad_id);
   
  		//Locate the Banner Ad in activity_main.xml
- 		AdView adView = (AdView) this.findViewById(R.id.adView);
+	  AdView adView = this.findViewById(R.id.adView);
   
  		// Request for Ads
  		AdRequest adRequest = new AdRequest.Builder()
@@ -478,7 +464,7 @@ public void onCreate(Bundle paramBundle)
 		{
 			public void run()
 			{
-				recording = Boolean.valueOf(true);
+				recording = Boolean.TRUE;
 				startRecord();
 			}
 		})
@@ -528,14 +514,14 @@ public void onCreate(Bundle paramBundle)
 	protected void onDestroy()
   {
     super.onDestroy();
-    recording = Boolean.valueOf(false);
+	  recording = Boolean.FALSE;
     if (audioTrack != null)
     {
     	audioTrack.release();
     }
   }
-  
-  public void displayInterstitial() {
+
+	private void displayInterstitial() {
 		// If Ads are loaded, show Interstitial else show nothing.
 		if (interstitial.isLoaded()) {
 			interstitial.show();

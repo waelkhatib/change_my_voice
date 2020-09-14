@@ -4,39 +4,19 @@
             "outputFile": "D:\\Change My Voice\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v11\\values-v11.xml",
             "map": [
                 {
-                    "source": "D:\\Change My Voice\\app\\src\\main\\res\\values-v11\\styles.xml",
+                    "source": "C:\\Users\\USER\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-appinvite-12.0.1.aar\\e80da76d3a0fdc03efe368f9837084ec\\res\\values-v11\\values.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "57",
-                        "endColumns": "75",
-                        "endOffsets": "128"
+                        "startLines": "-1",
+                        "startColumns": "-1",
+                        "startOffsets": "-1"
                     },
                     "to": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
-                        "endColumns": "74",
-                        "endOffsets": "125"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\USER\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-appinvite-12.0.1.aar\\e80da76d3a0fdc03efe368f9837084ec\\res\\values-v11\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "172",
-                        "endLines": "5",
+                        "endLines": "3",
                         "endColumns": "8",
-                        "endOffsets": "293"
-                    },
-                    "to": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "130",
-                        "endLines": "4",
-                        "endColumns": "8",
-                        "endOffsets": "251"
+                        "endOffsets": "176"
                     }
                 }
             ]

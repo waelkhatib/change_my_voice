@@ -3055,6 +3055,21 @@
             ]
         },
         {
+            "outputFile": "D:\\Change My Voice\\app\\build\\intermediates\\res\\merged\\debug\\values-xlarge-v4_values-xlarge-v4.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\Users\\USER\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0-alpha1.aar\\0a92dda8c6627ead143586143fc39a70\\res\\values-xlarge-v4\\values-xlarge-v4.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "55,126,197,267,337,405",
+                        "endColumns": "70,70,69,69,67,67",
+                        "endOffsets": "121,192,262,332,400,468"
+                    }
+                }
+            ]
+        },
+        {
             "outputFile": "D:\\Change My Voice\\app\\build\\intermediates\\res\\merged\\debug\\values-sw600dp-v13_values-sw600dp-v13.arsc.flat",
             "map": [
                 {
@@ -3082,21 +3097,6 @@
                         "startOffsets": "611,680",
                         "endColumns": "68,68",
                         "endOffsets": "675,744"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "D:\\Change My Voice\\app\\build\\intermediates\\res\\merged\\debug\\values-xlarge-v4_values-xlarge-v4.arsc.flat",
-            "map": [
-                {
-                    "source": "C:\\Users\\USER\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0-alpha1.aar\\0a92dda8c6627ead143586143fc39a70\\res\\values-xlarge-v4\\values-xlarge-v4.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "55,126,197,267,337,405",
-                        "endColumns": "70,70,69,69,67,67",
-                        "endOffsets": "121,192,262,332,400,468"
                     }
                 }
             ]
@@ -7860,28 +7860,6 @@
                         "startOffsets": "1874,1956,2057,2152,2272,2403,2490,2658,2789,2903,3024,3125,3229,3307,3396,3485,3593,4154,4232,4305,4383,4472,4561,4661,4759,4853,4926,5027,5127,5223,5340,5487,5589,5680,5782",
                         "endColumns": "81,100,94,119,130,86,167,130,113,120,100,103,77,88,88,107,77,77,72,77,88,88,99,97,93,72,100,99,95,116,146,101,90,101,79",
                         "endOffsets": "1951,2052,2147,2267,2398,2485,2653,2784,2898,3019,3120,3224,3302,3391,3480,3588,3666,4227,4300,4378,4467,4556,4656,4754,4848,4921,5022,5122,5218,5335,5482,5584,5675,5777,5857"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "D:\\Change My Voice\\app\\build\\intermediates\\res\\merged\\debug\\values-v14_values-v14.arsc.flat",
-            "map": [
-                {
-                    "source": "D:\\Change My Voice\\app\\src\\main\\res\\values-v14\\styles.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "57",
-                        "endColumns": "89",
-                        "endOffsets": "142"
-                    },
-                    "to": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "88",
-                        "endOffsets": "139"
                     }
                 }
             ]
@@ -17208,39 +17186,19 @@
             "outputFile": "D:\\Change My Voice\\app\\build\\intermediates\\res\\merged\\debug\\values-v11_values-v11.arsc.flat",
             "map": [
                 {
-                    "source": "D:\\Change My Voice\\app\\src\\main\\res\\values-v11\\styles.xml",
+                    "source": "C:\\Users\\USER\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-appinvite-12.0.1.aar\\e80da76d3a0fdc03efe368f9837084ec\\res\\values-v11\\values.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "57",
-                        "endColumns": "75",
-                        "endOffsets": "128"
+                        "startLines": "-1",
+                        "startColumns": "-1",
+                        "startOffsets": "-1"
                     },
                     "to": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
-                        "endColumns": "74",
-                        "endOffsets": "125"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\USER\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-appinvite-12.0.1.aar\\e80da76d3a0fdc03efe368f9837084ec\\res\\values-v11\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "172",
-                        "endLines": "5",
+                        "endLines": "3",
                         "endColumns": "8",
-                        "endOffsets": "293"
-                    },
-                    "to": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "130",
-                        "endLines": "4",
-                        "endColumns": "8",
-                        "endOffsets": "251"
+                        "endOffsets": "176"
                     }
                 }
             ]

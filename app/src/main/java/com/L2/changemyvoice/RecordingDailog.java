@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class RecordingDailog extends Activity
   implements Animation.AnimationListener
 {
-  Animation animRotate;
-  ImageView imgLogo;
+  private Animation animRotate;
+  private ImageView imgLogo;
   public void onAnimationEnd(Animation paramAnimation)
   {
     imgLogo.startAnimation(this.animRotate);
@@ -30,7 +29,7 @@ public class RecordingDailog extends Activity
   public void onBackPressed()
   {
                  super.onBackPressed();
-    MainActivity.recording = Boolean.valueOf(false);
+    MainActivity.recording = Boolean.FALSE;
     finish();
   }
 
@@ -38,18 +37,18 @@ public class RecordingDailog extends Activity
             {
     super.onCreate(paramBundle);
     setContentView(R.layout.record);
-    TextView localButton = (TextView)findViewById(R.id.btncancel);
-    imgLogo = ((ImageView)findViewById(R.id.imgLogo));
+              TextView localButton = findViewById(R.id.btncancel);
+              imgLogo = findViewById(R.id.imgLogo);
     animRotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_out);
     animRotate.setAnimationListener(this);
-    imgLogo.setVisibility(0);
+              imgLogo.setVisibility(View.VISIBLE);
     imgLogo.startAnimation(this.animRotate);
     
     localButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-         MainActivity.recording = Boolean.valueOf(false);
+        MainActivity.recording = Boolean.FALSE;
                RecordingDailog.this.finish();
       }
     });
