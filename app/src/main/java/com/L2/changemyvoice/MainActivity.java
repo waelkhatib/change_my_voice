@@ -59,11 +59,7 @@ public class MainActivity extends Activity
 	// --Commented out by Inspection (14/09/2020 16:17):Animation animRotate;
 	private boolean stopped = true;
 	private ImageView playBack;
-	// --Commented out by Inspection START (14/09/2020 16:17):
-// --Commented out by Inspection START (14/09/2020 16:21):
-	private ImageView shareWhatsapp;
 	private short[] inputAudioData;
-	private ImageView startRec;
 	private int sample_rate = 0;
 	//// --Commented out by Inspection STOP (14/09/2020 16:17)
 //  Integer[] freqset = {6050, 8500, 11025, 16000, 22050,
@@ -106,12 +102,13 @@ public class MainActivity extends Activity
 
 }
 private void shareWavFile(){
-	Initialize();
-	SaveToWavFile();
-	final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-	shareIntent.setType("audio/wav");
-	shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse("file://"+Environment.getExternalStorageDirectory()+"/out10.wav" ));
-	startActivity(Intent.createChooser(shareIntent, "Share sound"));
+
+    Initialize();
+    SaveToWavFile();
+    final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+    shareIntent.setType("audio/wav");
+    shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse("file://" + Environment.getExternalStorageDirectory() + "/out10.wav"));
+    startActivity(Intent.createChooser(shareIntent, "Share sound"));
 }
 private void Initialize(){
     initializeAudioData();
@@ -320,8 +317,10 @@ public void onCreate(Bundle paramBundle)
     arrayOfString[5] = getApplicationContext().getString(R.string.funny);
     arrayOfString[6] = getApplicationContext().getString(R.string.bee);
     arrayOfString[7] = getApplicationContext().getString(R.string.elephent);
-	  startRec = findViewById(R.id.startrec);
-	  shareWhatsapp = findViewById(R.id.shareWhatsapp);
+      ImageView startRec = findViewById(R.id.startrec);
+      // --Commented out by Inspection START (14/09/2020 16:17):
+      // --Commented out by Inspection START (14/09/2020 16:21):
+      ImageView shareWhatsapp = findViewById(R.id.shareWhatsapp);
 	  ImageView imageView1 = findViewById(R.id.imageView3);
 	  playBack = findViewById(R.id.playback);
     shareWhatsapp.setOnClickListener(new View.OnClickListener() {
@@ -586,4 +585,5 @@ public void onCreate(Bundle paramBundle)
 
 
 	}
+
 }

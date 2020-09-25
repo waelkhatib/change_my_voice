@@ -12,10 +12,11 @@
                 android:height="24dp"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/rec"
+    <item
+        android:bottom="8dp"
         android:left="8dp"
         android:right="6dp"
         android:top="8dp"
-        android:bottom="8dp"></item>
+        android:drawable="@drawable/rec" />
 
 </layer-list>
